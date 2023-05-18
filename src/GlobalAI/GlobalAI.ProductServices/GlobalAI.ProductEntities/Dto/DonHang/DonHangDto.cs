@@ -20,6 +20,7 @@ namespace GlobalAI.ProductEntities.Dto.DonHang
         public int? Status { get; set; }
         public string DiaChi { get; set; }
         public string Thumbnail { get; set; }
+        public string GhiChu { get; set; }
         public List<DonHangChiTietDto> DonHangChiTiets { get; set; }
     }
 }

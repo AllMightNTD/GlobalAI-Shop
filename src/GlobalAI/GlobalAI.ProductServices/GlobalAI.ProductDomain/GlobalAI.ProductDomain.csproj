@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\GlobalAI.CoreServices\GlobalAI.CoreRepositories\GlobalAI.CoreRepositories.csproj" />
     <ProjectReference Include="..\..\GlobalAI.DemoServices\GlobalAI.DemoDomain\GlobalAI.DemoDomain.csproj" />
     <ProjectReference Include="..\GlobalAI.ProductEntities\GlobalAI.ProductEntities.csproj" />
     <ProjectReference Include="..\GlobalAI.ProductRepositories\GlobalAI.ProductRepositories.csproj" />

@@ -58,7 +58,7 @@ namespace GlobalAI.ProductEntities.Dto.Product
 
         public string HinhThucThanhToan { get; set; }
         public string DiaChi { get; set; }
-
+        public string GhiChu { get; set; }
 
     }
 }

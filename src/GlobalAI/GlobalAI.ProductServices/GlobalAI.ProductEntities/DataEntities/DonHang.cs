@@ -82,6 +82,13 @@ namespace GlobalAI.ProductEntities.DataEntities
         [MaxLength(1000)]
         public string Thumbnail { get; set; }
 
+        /// <summary>
+        /// Ghi chú
+        /// </summary>
+        [ColumnSnackCase(nameof(GhiChu), TypeName = "VARCHAR2")]
+        [MaxLength(4000)]
+        public string GhiChu { get; set; }
+
         #region audit
         [MaxLength(50)]
         [ColumnSnackCase(nameof(CreatedBy), TypeName = "VARCHAR2")]

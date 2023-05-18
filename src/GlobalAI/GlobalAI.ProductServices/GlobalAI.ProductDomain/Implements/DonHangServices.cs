@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GlobalAI.CoreRepositories;
 using GlobalAI.DataAccess.Base;
 using GlobalAI.DataAccess.Models;
 using GlobalAI.DemoEntities.Dto.Product;
@@ -33,6 +34,7 @@ namespace GlobalAI.ProductDomain.Implements
         private readonly ILogger<SanPhamServices> _logger;
         private readonly string _connectionString;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly UserRepository _repositoryUser;
         private readonly DonHangRepository _repositoryDonHang;
         private readonly SanPhamRepository _repositorySanPham;
         private readonly ChiTietDonHangRepository _repositoryChiTietDonHang;
@@ -43,6 +45,7 @@ namespace GlobalAI.ProductDomain.Implements
             _repositoryDonHang = new DonHangRepository(dbContext, logger, mapper);
             _repositorySanPham = new SanPhamRepository(dbContext, logger, mapper);
             _repositoryChiTietDonHang = new ChiTietDonHangRepository(dbContext, logger, mapper);
+            _repositoryUser = new UserRepository(dbContext, logger);
             _repositorySanPhamChiTietRepository = new SanPhamChiTietRepository(dbContext, logger, mapper);
             _connectionString = databaseOptions.ConnectionString;
             _logger = logger;
@@ -159,17 +162,19 @@ namespace GlobalAI.ProductDomain.Implements
         /// <param name="ctDto"></param>
         public void CreateDonHangFull(AddDonHangFullDto donHangFullDto)
         {
-            using (IDbContextTransaction transaction = _dbContext.Database.BeginTransaction())
-            {
- 
-            try
-            {
+            //using (IDbContextTransaction transaction = _dbContext.Database.BeginTransaction())
+            //{
+
+            //try
+            //{
+
             var idNguoiMua = CommonUtils.GetCurrentUserId(_httpContext);
             var gPoint = CommonUtils.GetCurrentGPoint(_httpContext);
             if (gPoint <= 0 || gPoint == null)
             {
                 throw new Exception("Điểm GPoint của bạn đã hết");
             }
+            var transaction = _dbContext.Database.BeginTransaction();
             donHangFullDto.donHang.IdNguoiMua = idNguoiMua;
             // Save DonHang
             var resultDh = CreateDonhang(donHangFullDto.donHang);
@@ -178,14 +183,14 @@ namespace GlobalAI.ProductDomain.Implements
             _dbContext.SaveChanges();
             var idDonHang = resultDh.Id;
             var giaChietKhau = donHangFullDto.donHang.SoTien;
-            double priceCheck = 0;
+            decimal priceCheck = 0;
             // Save ChiTietDonHang
             foreach (var item in donHangFullDto.ChiTietDonHangFullDtos)
-            {  
+            {
                 var ctDonhang = _repositoryChiTietDonHang.CreateChiTietDonHang(_mapper.Map<ChiTietDonHang>(item));
-            
+
                 var sanPhamChiTiet = _repositorySanPhamChiTietRepository.GetSanPhamChiTietById(item.IdSanPhamChiTiet);
-                priceCheck += (double)((sanPhamChiTiet.GiaBan - sanPhamChiTiet.GiaChietKhau) * item.SoLuong);
+                priceCheck += (decimal)((sanPhamChiTiet.GiaBan - sanPhamChiTiet.GiaChietKhau) * item.SoLuong);
 
                 ctDonhang.IdDonHang = idDonHang;
                 ctDonhang.IdSanPhamChiTiet = item.IdSanPhamChiTiet;
@@ -198,14 +203,16 @@ namespace GlobalAI.ProductDomain.Implements
                 throw new Exception("Điểm GPoint của bạn không đủ để thực hiện giao dịch này");
             }
             _dbContext.SaveChanges();
+            _repositoryUser.Update(idNguoiMua, gPoint - priceCheck);
+            _dbContext.SaveChanges();
             transaction.Commit();
-        }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-            }
+            //}
+            //    catch (Exception ex)
+            //    {
+            //        transaction.Rollback();
+            //    }
 
-}
+            //}
         }
         /// <summary>
         /// Cập nhật trạng thái đơn hàng

@@ -3,6 +3,7 @@ using System;
 using GlobalAI.DataAccess.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Oracle.EntityFrameworkCore.Metadata;
 
@@ -11,9 +12,11 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace GlobalAI.HostConsole.Migrations
 {
     [DbContext(typeof(GlobalAIDbContext))]
-    partial class GlobalAIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230517150058_add-tbl-ward")]
+    partial class addtblward
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,45 +24,6 @@ namespace GlobalAI.HostConsole.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("GlobalAI.CoreEntities.DataEntities.CoreDistrict", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("NVARCHAR2(450)")
-                        .HasColumnName("CODE");
-
-                    b.Property<int>("AdministrativeUnitId")
-                        .HasColumnType("NUMBER(10)")
-                        .HasColumnName("ADMINISTRATIVE_UNIT_ID");
-
-                    b.Property<string>("CodeName")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("CODE_NAME");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("FULL_NAME");
-
-                    b.Property<string>("FullNameEn")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("FULL_NAME_EN");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("NAME");
-
-                    b.Property<string>("NameEn")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("NAME_EN");
-
-                    b.Property<string>("ProvinceCode")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("PROVINCE_CODE");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("C_DISTRICTS");
-                });
 
             modelBuilder.Entity("GlobalAI.CoreEntities.DataEntities.CoreProvince", b =>
                 {
@@ -267,45 +231,6 @@ namespace GlobalAI.HostConsole.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("C_USER_ROLE");
-                });
-
-            modelBuilder.Entity("GlobalAI.CoreEntities.DataEntities.CoreWard", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("NVARCHAR2(450)")
-                        .HasColumnName("CODE");
-
-                    b.Property<int>("AdministrativeUnitId")
-                        .HasColumnType("NUMBER(10)")
-                        .HasColumnName("ADMINISTRATIVE_UNIT_ID");
-
-                    b.Property<string>("CodeName")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("CODE_NAME");
-
-                    b.Property<string>("DistrictCode")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("DISTRICT_CODE");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("FULL_NAME");
-
-                    b.Property<string>("FullNameEn")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("FULL_NAME_EN");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("NAME");
-
-                    b.Property<string>("NameEn")
-                        .HasColumnType("NVARCHAR2(2000)")
-                        .HasColumnName("NAME_EN");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("C_WARDS");
                 });
 
             modelBuilder.Entity("GlobalAI.CoreEntities.DataEntities.User", b =>

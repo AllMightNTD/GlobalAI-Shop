@@ -25,6 +25,15 @@ namespace GlobalAI.CoreRepositories
         }
 
         /// <summary>
+        /// cap nhat user
+        /// </summary>
+        /// <param name="input"></param>
+        public void Update(int userId, decimal gPoint)
+        {
+            var user = _dbSet.FirstOrDefault(d => d.UserId == userId && !d.Deleted);
+            user.GPoint = gPoint;
+        }
+        /// <summary>
         /// Tạo mới user
         /// </summary>
         /// <param name="entity"></param>

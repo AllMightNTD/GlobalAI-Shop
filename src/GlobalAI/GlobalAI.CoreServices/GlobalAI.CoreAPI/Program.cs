@@ -114,6 +114,7 @@ services.AddSwaggerGen(option =>
 services.AddScoped<IUserServices, UserServices>();
 services.AddScoped<IRoleServices, RoleServices>();
 services.AddScoped<IPermissionServices, PermissionServices>();
+services.AddScoped<IProvinceServices, ProvinceServices>();
 #endregion
 
 services.AddAutoMapper(typeof(CoreMappingProfile));

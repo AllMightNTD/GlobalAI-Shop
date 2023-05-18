@@ -24,6 +24,13 @@ namespace GlobalAI.DataAccess.Base
         public DbSet<DanhMucBaiTin> DanhMucBaiTins { get; set; }
         #endregion
 
+        #region Tỉnh thành
+        public DbSet<CoreProvince> CoreProvinces { get; set; }
+        public DbSet<CoreDistrict> CoreDistricts { get; set; }
+        public DbSet<CoreWard> CoreWards { get; set; }
+
+        #endregion
+
         #region Product
         public DbSet<SanPham> SanPhams { get; set; }
         public DbSet<SanPhamChiTiet> SanPhamChiTiets { get; set; }
